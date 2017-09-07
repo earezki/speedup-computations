@@ -1,5 +1,5 @@
 # speedup-computations
-Sometimes you find yourself trying to squeeze the last bits of your cpu to give you some more milliseconds, Or you may hate the smell of a melting cpu because of an intensive calculation, Or maybe you are just a performance maniac, In all cases, this post is for you.
+Sometimes you find yourself trying to squeeze the last bits of your cpu to give you some more milliseconds. Or you may hate the smell of a melting cpu, Or maybe you are just a performance maniac, In all cases, this post is for you.
 So let us say you are designing a banking application in which you have a Transaction entity, and let us say that the entity contains those simple fields.
 ```java
 class Transaction {
@@ -29,7 +29,7 @@ double sumAmount() {
 	return result;
 }
 ```
-(Do not attack me; I know this is not object oriented)
+(Do not attack me. I know this is not object oriented)
 You test it and it works. Next day your colleagues start to complain about performance and giving there is millions of transactions, the profiler point your method. What are you going to do now? Hmm, let me see, Yeah I got it, Parallelism to the rescue, you take this great idea to your colleagues and they turn you down because the server is already filled with active threads.
 Now what, well, you just need to better use your cycles.
 Let’s change the structure of the Account entity.
