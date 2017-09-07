@@ -1,33 +1,65 @@
 package computation;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import static java.lang.String.format;
+
 public class Main {
 
+    static final int WARM_UP = 1000000;
+    static final int STRESS = 100000;
+    static final int SIZE = 100000;
+
+    static AmountCalculator[] amountCalculators = {
+            new ArrayOfTransactions(SIZE),
+            new TransactionsAsArray(SIZE)
+    };
+
+    static Map<AmountCalculator, Long> totalRuntime = new HashMap<>();
+
+    static {
+        for (AmountCalculator amountCalculator : amountCalculators) {
+            totalRuntime.put(amountCalculator, 0L);
+        }
+    }
+
     public static void main(String[] args) {
+        warmUp(amountCalculators);
 
-        TransactionAmountCalculator transactionAmountCalculator = new TransactionAmountCalculator();
-        ArrayAmountCalculator arrayAmountCalculator = new ArrayAmountCalculator();
-
-        for (int i = 0; i < 1000; i++) {
-            System.out.println("run: " + i);
-            System.out.println("----------");
-            profileTransactionAmountCalculator(transactionAmountCalculator);
-            profileArrayAmountCalculator(arrayAmountCalculator);
+        System.out.println(amountCalculators[0].sumAmount());
+        System.out.println(amountCalculators[1].sumAmount());
+        for (int i = 0; i < STRESS; i++) {
+            System.out.println(format("--- run: %d ----", i));
+            for (AmountCalculator amountCalculator : amountCalculators) {
+                profileAmountCalculator(amountCalculator);
+            }
         }
 
+        totalRuntime.forEach((amountCalculator, runTime) -> {
+            System.out.println(String.format("total run time for %s is %d",
+                    amountCalculator.getClass().getSimpleName(),
+                    runTime));
+        });
+        System.out.println((totalRuntime.get(amountCalculators[0]) / totalRuntime.get(amountCalculators[1])));
     }
 
-    private static void profileArrayAmountCalculator(ArrayAmountCalculator arrayAmountCalculator) {
-        long start = System.nanoTime();
-        arrayAmountCalculator.sumAmount();
-        long end = System.nanoTime();
-        System.out.println("ArrayAmountCalculator: " + (end - start));
+    private static void warmUp(AmountCalculator[] amountCalculators) {
+        System.out.println("Warming up...");
+        for (int i = 0; i < WARM_UP; i++) {
+            for (AmountCalculator amountCalculator : amountCalculators) {
+                amountCalculator.sumAmount();
+            }
+        }
     }
 
-    private static void profileTransactionAmountCalculator(TransactionAmountCalculator transactionAmountCalculator) {
+    static void profileAmountCalculator(AmountCalculator amountCalculator) {
         long start = System.nanoTime();
-        transactionAmountCalculator.sumAmount();
+        amountCalculator.sumAmount();
         long end = System.nanoTime();
-        System.out.println("TransactionAmountCalculator: " + (end - start));
+        totalRuntime.merge(amountCalculator, end - start, (lhs, rhs) -> lhs + rhs);
+        System.out.println(amountCalculator.getClass().getSimpleName() + ": " + (end - start));
     }
+
 
 }
