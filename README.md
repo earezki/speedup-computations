@@ -44,7 +44,7 @@ Then the calculation becomes:
 double sumAmount() {
 	double result = 0.0;
 	for (int i = 0; i < transactions.length; i++) {
-    	result += transactions[i];
+    	result += amounts[i];
 	}
 	return result;
 }
