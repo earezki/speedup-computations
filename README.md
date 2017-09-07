@@ -30,7 +30,7 @@ double sumAmount() {
 }
 ```
 (Do not attack me; I know this is not object oriented)
-You test it and it works. Next day your colleagues start to complain about performance and giving there is millions of transactions, the profiler point your method. What are you going to do know? Hmm, let me see, Yeah I got it, Parallelism to the rescue, you take this great idea to your colleagues and they turn you down because the server is already filled with active threads.
+You test it and it works. Next day your colleagues start to complain about performance and giving there is millions of transactions, the profiler point your method. What are you going to do now? Hmm, let me see, Yeah I got it, Parallelism to the rescue, you take this great idea to your colleagues and they turn you down because the server is already filled with active threads.
 Now what, well, you just need to better use your cycles.
 Let’s change the structure of the Account entity.
 ```java
