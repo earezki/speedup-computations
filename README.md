@@ -1,2 +1,2 @@
 # speedup-computations
-article soon
+https://dzone.com/articles/speed-up-your-computations
