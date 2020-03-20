@@ -2,5 +2,5 @@ package computation;
 
 interface AmountCalculator {
 
-    double sumAmount();
+    double total();
 }

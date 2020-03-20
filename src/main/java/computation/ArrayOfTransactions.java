@@ -1,19 +1,25 @@
 package computation;
 
+import computation.transaction.Money;
+import computation.transaction.Transaction;
+
+import java.util.List;
+
+import static java.util.Arrays.asList;
+
 class ArrayOfTransactions implements AmountCalculator {
 
-    Transaction[] transactions;
+    private List<Transaction> transactions;
 
     ArrayOfTransactions(int size) {
-        transactions = new TransactionsFactory().arrayOfTransactions(size);
+        transactions = asList(new TransactionsFactory().arrayOfTransactions(size));
     }
 
     @Override
-    public double sumAmount() {
-        double result = 0.0;
-        for (int i = 0; i < transactions.length; i++) {
-            result += transactions[i].amount;
-        }
-        return result;
+    public double total() {
+        return transactions.stream()
+                .map(Transaction::amount)
+                .reduce(Money.ZERO, Money::add)
+                .value();
     }
 }

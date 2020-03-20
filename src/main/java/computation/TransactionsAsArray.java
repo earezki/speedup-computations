@@ -1,5 +1,7 @@
 package computation;
 
+import computation.transactions.Transactions;
+
 class TransactionsAsArray implements AmountCalculator {
 
     private Transactions transactions;
@@ -9,12 +11,8 @@ class TransactionsAsArray implements AmountCalculator {
     }
 
     @Override
-    public double sumAmount() {
-        double result = 0.0;
-        for (int i = 0; i < transactions.length; i++) {
-            result += transactions.amount[i];
-        }
-        return result;
+    public double total() {
+        return transactions.total().value();
     }
 
 }

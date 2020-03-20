@@ -7,8 +7,8 @@ import static java.lang.String.format;
 
 public class Main {
 
-    static final int WARM_UP = 1000000;
-    static final int STRESS = 100000;
+    static final int WARM_UP = 1000;
+    static final int STRESS = 10000;
     static final int SIZE = 100000;
 
     static AmountCalculator[] amountCalculators = {
@@ -27,8 +27,8 @@ public class Main {
     public static void main(String[] args) {
         warmUp(amountCalculators);
 
-        System.out.println(amountCalculators[0].sumAmount());
-        System.out.println(amountCalculators[1].sumAmount());
+        System.out.println(amountCalculators[0].total());
+        System.out.println(amountCalculators[1].total());
         for (int i = 0; i < STRESS; i++) {
             System.out.println(format("--- run: %d ----", i));
             for (AmountCalculator amountCalculator : amountCalculators) {
@@ -48,14 +48,14 @@ public class Main {
         System.out.println("Warming up...");
         for (int i = 0; i < WARM_UP; i++) {
             for (AmountCalculator amountCalculator : amountCalculators) {
-                amountCalculator.sumAmount();
+                amountCalculator.total();
             }
         }
     }
 
     static void profileAmountCalculator(AmountCalculator amountCalculator) {
         long start = System.nanoTime();
-        amountCalculator.sumAmount();
+        amountCalculator.total();
         long end = System.nanoTime();
         totalRuntime.merge(amountCalculator, end - start, (lhs, rhs) -> lhs + rhs);
         System.out.println(amountCalculator.getClass().getSimpleName() + ": " + (end - start));
